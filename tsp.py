@@ -16,5 +16,9 @@ class TspState(StateSpace):
     def print_state(self):
         pass
 
+# Might be better to hardcode the goal state for the given problem
 def tsp_goal_state(state):
     pass
+
+
+# MAKE PROBLEM SET FOR TESTING
