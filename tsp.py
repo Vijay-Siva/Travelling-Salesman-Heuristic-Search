@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from search import *
 
 
@@ -9,8 +9,7 @@ class TSP():
        self.vertices = vertices 
        self.edges = edges
        self.path = path
-=======
-#python.linting.enabled = False
+
 '''
     A) Class TSP
 
@@ -68,8 +67,7 @@ class TSP(StateSpace):
             s += str(x) + ", "
         
         return s
->>>>>>> 74f0c9619331e0a6f8e71927175c8841e66b1b46
-    
+ 
     def print_state(self):
         '''
         Prints the string representation of the state. ASCII art FTW!
@@ -91,10 +89,7 @@ class TSP(StateSpace):
             return path[-1][1]
         else:
             return None
-<<<<<<< HEAD
-=======
 
 '''
 TSP Problem Set, for testing TODO 
 '''
->>>>>>> 74f0c9619331e0a6f8e71927175c8841e66b1b46
