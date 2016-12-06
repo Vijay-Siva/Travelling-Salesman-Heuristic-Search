@@ -1,3 +1,5 @@
+python.linting.enabled = False
+
 from search import * 
 class TSP():
    def __init__(self, vertices, edges, path=[]):
