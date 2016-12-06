@@ -14,4 +14,11 @@ class TSP():
                 result.append(edge)
         return result
 
+    ''' Get the current vertex in the path'''
+    def get_current_vertex(self):
+        if len(path) > 0:
+            return path[-1][1]
+        else:
+            return None
+
     
