@@ -12,7 +12,7 @@ class TspState(StateSpace):
     
     def state_string(self):
         pass
-    
+
     def print_state(self):
         pass
 
