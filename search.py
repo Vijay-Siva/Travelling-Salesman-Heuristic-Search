@@ -80,6 +80,7 @@ class StateSpace:
         '''Print a representation of the state'''
         print("Must be over ridden.")
 
+    # CHANGE TO ATTRIBUTE toStr
     def print_path(self):
         '''print the sequence of actions used to reach self'''
         #can be over ridden to print problem specific information
@@ -93,7 +94,7 @@ class StateSpace:
             print(" ==> ", end="")
             states.pop().print_state()
         print("")
- 
+   # TO REMOVE
     def has_path_cycle(self):
         '''Returns true if self is equal to a prior state on its path'''
         s = self.parent
@@ -103,6 +104,7 @@ class StateSpace:
                 return True
             s = s.parent
         return False
+
 
 #Constants to denote the search strategy. 
 _DEPTH_FIRST = 0

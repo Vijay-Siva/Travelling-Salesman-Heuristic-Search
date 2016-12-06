@@ -1,3 +1,5 @@
+python.linting.enabled = False
+
 from search import * 
 
 class TspState(StateSpace):
