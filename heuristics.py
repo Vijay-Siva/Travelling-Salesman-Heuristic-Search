@@ -35,7 +35,6 @@ def nearest_insertion():
 2. For each city not in the subtour, find its cheapest insertion (as in step 3 of Nearest Insertion). Then chose the city with the least cost/increase ratio, and insert it.
 3. Repeat step 2 until no more cities remain.
 """
-
 def convex_hull():
     pass
 
@@ -54,3 +53,6 @@ Pseudo code:
 
 The Nearest Neighbor algorithm will often keep its tours within 25% of the Held-Karp lower bound.
 """
+def nearest_neighbours():
+    pass
+    
