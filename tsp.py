@@ -1,24 +1,17 @@
 from search import * 
-
-class TspState(StateSpace):
-    def __init__(self, actin, gval, parent):
-        StateSpace.__init__(self, action, gval, parent)
+class TSP():
+   def __init__(self, vertices, edges, path=[]):
+       self.order = len(vertices) 
+       self.vertices = vertices 
+       self.edges = edges
+       self.path = path
     
-    def successors(self):
-        pass
+    '''Return all the outgoing edges for the given vertex in self.'''
+    def get_edges(self, vertex):
+        result = []
+        for edge in self.edges:
+            if (edge[0] == vertex):
+                result.append(edge)
+        return result
 
-    def hashable_state(self):
-        pass
     
-    def state_string(self):
-        pass
-
-    def print_state(self):
-        pass
-
-# Might be better to hardcode the goal state for the given problem
-def tsp_goal_state(state):
-    pass
-
-
-# MAKE PROBLEM SET FOR TESTING
