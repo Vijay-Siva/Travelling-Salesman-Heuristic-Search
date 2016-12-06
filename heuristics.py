@@ -1,58 +1,53 @@
-"""
-Greedy (Heuristic) 
-Complexity:O(n2log2(n))
-Description: The Greedy heuristic gradually constructs a tour by repeatedly selecting the shortest edge and adding it to the tour as long as it doesn’t create a cycle with less than N edges, or increases the degree of any node to more than 2.
-We must not add the same edge twice of course.
 
-Pseudo code:
-1. Sort all edges.
-2. Select the shortest edge and add it to our tour if it doesn’t violate any of the above constraints.
-3. Do we have N edges in our tour? If no, repeat step 2.
-
-The Greedy algorithm normally keeps within 15-20% of the Held-Karp lower bound.
-"""
-def greedy():
+def rand(tsp, vertex):
     pass
 
-
-"""
-Insertion (Heuristic)  
-Description: Insertion heuristics are quite straight forward, and there are many variants to choose from. The basics of insertion heuristics is to start with a tour of a subset of all cities, and then inserting the rest by some heuristic. The initial subtour is often a triangle or the convex hull. One can also start with a single edge as subtour.
-
-(A) Nearest Insertion, O(n^2)
-1. Select the shortest edge, and make a subtour of it.
-2. Select a city not in the subtour, having the shortest distance to any one of the cities in the subtoor.
-3. Find an edge in the subtour such that the cost of inserting the selected city between the edge’s cities will be minimal.
-4. Repeat step 2 until no more cities remain.
-"""
-def nearest_insertion():
+def two_shortest(tsp, vertex):
+    #stortest edge connected to first, last on path
     pass
 
+def greedy(tsp, vertex):
+    '''
+    Greedy heuristic takes a TSP instance and vertex, and calculates
+    how far it is from it's nearest neighbour
+    '''
+    edges = tsp.get_edges(vertex)
 
-"""
-(B) Convex Hull: O(n^2*log^2(n))
-1. Find the convex hull of our set of cities, and make it our initial subtour.
-2. For each city not in the subtour, find its cheapest insertion (as in step 3 of Nearest Insertion). Then chose the city with the least cost/increase ratio, and insert it.
-3. Repeat step 2 until no more cities remain.
-"""
-def convex_hull():
-    pass
+    # dead end
+    if edges == []:
+        return sys.maxint
+    min_edge = edges[0]
+    for e in edges:
+        if min_edge.weight > e.weight:
+            min_edge = e
+    return e
 
 
+'''Associate with each vertex v of the graph a number C[v] 
+(the cheapest cost of a connection to v) and an edge E[v] 
+(the edge providing that cheapest connection). To initialize 
+these values, set all values of C[v] to +∞ (or to any number 
+larger than the maximum edge weight) and set each E[v] to a 
+special flag value indicating that there is no edge connecting 
+v to earlier vertices.
 
-"""
-Nearest Neighbor (Heuristic)
-Complexity: O(n^2)
-Description: A weighted graph heuristic, always choose to visit the nearest neighbor.
+Initialize an empty forest F and a set Q of vertices that have 
+not yet been included in F (initially, all vertices).
+Repeat the following steps until Q is empty:
+Find and remove a vertex v from Q having the minimum possible 
+value of C[v]
 
-Pseudo code:
-1. Select a random city.
-2. Find the nearest unvisited city and go there.
-3. Are there any unvisitied cities left? If yes, repeat step 2.
-4. Return to the first city.
+Add v to F and, if E[v] is not the special flag value, also add E[v] 
+to F
 
-The Nearest Neighbor algorithm will often keep its tours within 25% of the Held-Karp lower bound.
-"""
-def nearest_neighbours():
-    pass
-    
+Loop over the edges vw connecting v to other vertices w. For each 
+such edge, if w still belongs to Q and vw has smaller weight than 
+C[w], perform the following steps:
+
+Set C[w] to the cost of edge vw
+Set E[w] to point to edge vw.
+Return F
+''''
+for v in tsp.vertices:
+    E[v] = min(get_edges(v), key: lambda x: x.weight)
+    C[V] = E[V].weight

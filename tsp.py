@@ -1,7 +1,8 @@
-python.linting.enabled = False
+from search import *
 
-from search import * 
+
 class TSP():
+
    def __init__(self, vertices, edges, path=[]):
        self.order = len(vertices) 
        self.vertices = vertices 
@@ -22,5 +23,3 @@ class TSP():
             return path[-1][1]
         else:
             return None
-
-    
