@@ -1,5 +1,4 @@
 from search import *
-from heuristics import *
 
 '''
     A) Class TSP
