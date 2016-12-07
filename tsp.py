@@ -78,6 +78,8 @@ class TSPState(StateSpace):
     def get_edges(self, vertex):
         '''
         Return all the outgoing untouched edges for the given vertex in self.
+        @param vertex
+        @return list of edges 
         '''
         result = []
         for edge in self.unexplored_edges:
@@ -93,6 +95,8 @@ class TSPState(StateSpace):
     def get_all_edges(self, vertex):
         '''
         Return all the outgoing edges for the given vertex in self.
+        @param vertex
+        @return list of edges 
         '''
         return [e for e in self.unexplored_edges + self.path_edges if vertex in e[0:2]]
 
