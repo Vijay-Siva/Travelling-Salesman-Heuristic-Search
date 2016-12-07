@@ -20,7 +20,7 @@ def get_min_edge_weight(edges):
     for e in edges:
         if min_edge[2] > e[2]:
             min_edge = e
-    return e[2]
+    return min_edge[2]
 
 
 def two_shortest(state):
