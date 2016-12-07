@@ -90,4 +90,30 @@ def mst(state):
     
     return size
 
-    
+
+
+
+
+
+if __name__ == "__main__":
+    #TEST CODE
+    solved = 0; unsolved = []; counter = 0; percent = 0; timebound = 2; #2 second time limit for each problem
+    print("*************************************")  
+    print("Running A-star")     
+
+
+        se = SearchEngine('astar', 'full')
+        final = se.search(s0, sokoban_goal_state, heur_displaced, timebound)
+
+        if final:
+        final.print_path()
+        solved += 1
+        else:
+        unsolved.append(i)    
+        counter += 1
+
+    if counter > 0:  
+        percent = (solved/counter)*100
+
+    print("*************************************")  
+  
