@@ -1,5 +1,5 @@
 from search import *
-
+from heuristics import *
 
 '''
     A) Class TSP
@@ -37,7 +37,7 @@ class TSPState(StateSpace):
         Generates the list of states that can be reached from the current state.
         '''
         successors = []
-        for e in self.get_edges(self, self.get_current_vertex):
+        for e in self.get_edges(self.get_current_vertex):
             if e[0] == self.get_current_vertex:
                 w = e[1]
             else:
@@ -54,7 +54,7 @@ class TSPState(StateSpace):
         '''
         Return a data item that can be used as a dictionary key to UNIQUELY represent a state.
         '''
-        return hash(self.path_edges)
+        return hash(sum([x[2] for x in self.path_edges]))
 
     def state_string(self):
         '''
@@ -85,22 +85,24 @@ class TSPState(StateSpace):
 
     def get_current_vertex(self):
         ''' Get the current vertex in the path'''
-        return self.path_vertices[-1]
+        return 1
 
-def goal_state(TSPState):
+def goal_state(state):
     '''
     Returns True iff the given TSP state is a goal state. 
     @param TSPState: The state that we want to check 
     '''
-    sum = 0
-    for edge in self.path:
-        sum += edge[2]
     
-    return sum == self.optimal_weight 
+    return sum([x[2] for x in state.path_edges]) == state.optimal_weight 
 
 #TSP test cases 
 
-Problems = (
-    TSPState("Start", 0, None, [], [1, 2, 3, 4], [], 
+Problems = TSPState("Start", 0, None, [], [1, 2, 3, 4], [], 
             [(1, 2, 1), (2, 3, 1), (3, 2, 1), (4, 1, 1), (2, 4, 5), (1, 3, 7)], 4)
-)
+
+
+
+if __name__ == "__main__":
+    se = SearchEngine('best_first', 'full')
+    final = se.search(initState=Problems, heur_fn=greedy, goal_fn=goal_state)
+    print(final)

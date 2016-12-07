@@ -91,26 +91,5 @@ def mst(state):
     return size
 
 
-
-
-
-
-if __name__ == "__main__":
-    #TEST CODE
-    print("*************************************")  
-    print("Running A-star")     
-
-
-    se = SearchEngine('astar', 'full')
-    final = se.search(s0, sokoban_goal_state, heur_displaced, timebound)
-
-    if final:
-    final.print_path()
-    solved += 1
-    else:
-    unsolved.append(i)    
-    counter += 1
-
-
-    print("*************************************")  
+ 
   
