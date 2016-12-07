@@ -12,13 +12,14 @@ from search import *
 
 class TSPState(StateSpace):
     def __init__(self, action, gval, parent, path_vertices, unexplored_vertices,
-                 path_edges, unexplored_edges):
+                 path_edges, unexplored_edges, optimal_weight):
         '''
         Creates a new TSP state 
-        @param vertices: The set of vertices the graph contains
-        @param edges: The set of (undirected) edges the graph has, of the form (v1, v2, weight)
-        @param path: The path so far in the search for a minimum hamiltonian cycle
-        @param goal: The optimal hamiltonian cycle for this TSP formulation
+        @param path_vertices: The set of vertices visited so far 
+        @param unexplored_vertices: The set of vertices not visited yet 
+        @param path_edges: Edges travelled through so far
+        @param unexplored_edges: Edges we have not travelled through yet
+        @param optimal_weight: The weight of the optimal path in the graph 
         '''
         StateSpace.__init__(self, action, gval, parent)
         self.order = len(path_vertices) + len(explored_vertices)
@@ -29,6 +30,7 @@ class TSPState(StateSpace):
         self.unexplored_vertices = unexplored_vertices
         self.path_edges = path_edges
         self.unexplored_edges = unexplored_edges
+        self.optimal_weight = optimal_weight
 
         # start/end
         self.goal = path_vertices[0] 
@@ -88,3 +90,13 @@ class TSPState(StateSpace):
         ''' Get the current vertex in the path'''
         return self.path_vertices[-1]
 
+def goal_state(TSPState):
+    '''
+    Returns True iff the given TSP state is a goal state. 
+    @param TSPState: The state that we want to check 
+    '''
+    sum = 0
+    for edge in self.path:
+        sum += edge[2]
+    
+    return sum == self.optimal_weight 
