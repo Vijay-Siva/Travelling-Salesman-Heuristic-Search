@@ -69,7 +69,7 @@ class TSPState(StateSpace):
         '''
         Return all the outgoing untouched edges for the given vertex in self.
         '''
-        return [e for e in self.unexplored_edges if vertex == e[0]]
+        return [e for e in self.unexplored_edges if vertex == e[0] and e[1] not in self.path_vertices]
 
     def get_all_edges(self, vertex):
         '''
@@ -79,8 +79,8 @@ class TSPState(StateSpace):
 
     def get_current_vertex(self):
         ''' Get the current vertex in the path'''
-        if (self.path_vertices):
-            return path_vertices[-1]
+        if len(self.path_vertices) > 0:
+            return self.path_vertices[-1]
         return 1
 
 def goal_state(state):
@@ -88,5 +88,5 @@ def goal_state(state):
     Returns True iff the given TSP state is a goal state. 
     @param TSPState: The state that we want to check 
     '''
-    
-    return sum([x[2] for x in state.path_edges]) == state.optimal_weight 
+    return (sum([x[2] for x in state.path_edges]) == state.optimal_weight and 
+                len(state.path_edges) == state.order)
