@@ -69,13 +69,13 @@ class TSPState(StateSpace):
         '''
         Return all the outgoing untouched edges for the given vertex in self.
         '''
-        return [e for e in self.unexplored_edges if vertex == e[0] and e[1] not in self.path_vertices]
+        return [e for e in self.unexplored_edges if vertex in e[0:2] and e[1] not in self.path_vertices]
 
     def get_all_edges(self, vertex):
         '''
         Return all the outgoing edges for the given vertex in self.
         '''
-        return [e for e in self.unexplored_edges + self.path_edges if vertex == e[0:2]]
+        return [e for e in self.unexplored_edges + self.path_edges if vertex in e[0:2]]
 
     def get_current_vertex(self):
         ''' Get the current vertex in the path'''

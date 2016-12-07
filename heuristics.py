@@ -7,7 +7,6 @@ def rand(state):
     '''
     return random(state.unexplored_vertices)
 
-
 def get_min_edge_weight(edges):
     '''
     helper for next 2 functions
@@ -21,7 +20,6 @@ def get_min_edge_weight(edges):
         if min_edge[2] > e[2]:
             min_edge = e
     return min_edge[2]
-
 
 def two_shortest(state):
     '''
