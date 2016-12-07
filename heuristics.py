@@ -1,33 +1,43 @@
 from random import random
+import sys
 
-def rand(tsp, vertex):
-    return rand(len(tsp.verticies) - len(tsp.path))
+def rand(state):
+    '''
+    Note that min weight of an edge is 1
+    '''
+    return random(state.unexplored_vertices)
 
-def two_shortest(tsp, vertex):
-    '''
-    stortest edge connected to first, last on path
-    '''
-    return greedy(tsp, tsp.path[0]) + greedy(tsp, vertex)
 
-def greedy(tsp, vertex):
+def get_min_edge_weight(edges):
     '''
-    Greedy heuristic takes a TSP instance and vertex, and calculates
-    how far it is from it's nearest neighbour
+    helper for next 2 functions
     '''
-    edges = tsp.get_edges(vertex)
-
-    # deal with dead end
     if edges == []:
-        return sys.maxint
+        return sys.maxsize
 
     # get min edge weight
     min_edge = edges[0]
     for e in edges:
-        if min_edge.weight > e.weight:
+        if min_edge[2] > e[2]:
             min_edge = e
-    return e.weight
+    return e[2]
 
-def mst(tsp):
+
+def two_shortest(state):
+    '''
+    stortest edge connected to first, last on path
+    '''
+    return get_min_edge_weight(state.get_all_edges(state.path_vertices[0]))
+    + get_min_edge_weight(state.get_all_edges(state.path_vertices[1]))
+
+def greedy(state):
+    '''
+    Greedy heuristic takes a TSP instance and vertex, and calculates
+    how far it is from it's nearest neighbour
+    '''
+    return get_min_edge_weight(state.get_edges(state.get_current_vertex()))
+
+def mst(state):
     '''
     Size of mst of remaining vertices
     ''' 

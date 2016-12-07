@@ -1,14 +1,5 @@
-
 from search import *
 
-
-class TSP():
-
-   def __init__(self, vertices, edges, path=[]):
-       self.order = len(vertices) 
-       self.vertices = vertices 
-       self.edges = edges
-       self.path = path
 
 '''
     A) Class TSP
@@ -18,79 +9,82 @@ class TSP():
 
 '''
 from search import * 
-class TSP(StateSpace):
-    def __init__(self, action, gval, parent, vertices, edges, path, goal):
+
+class TSPState(StateSpace):
+    def __init__(self, action, gval, parent, path_vertices, unexplored_vertices,
+                 path_edges, unexplored_edges):
         '''
         Creates a new TSP state 
         @param vertices: The set of vertices the graph contains
-        @param edges: The set of edges the graph has, of the form (v1, v2, weight)
+        @param edges: The set of (undirected) edges the graph has, of the form (v1, v2, weight)
         @param path: The path so far in the search for a minimum hamiltonian cycle
         @param goal: The optimal hamiltonian cycle for this TSP formulation
         '''
         StateSpace.__init__(self, action, gval, parent)
-        self.order = len(vertices) 
-        self.vertices = vertices
-        self.unexplored_vertices
-        self.edges = edges
-        self.path = path
-        self.goal = goal 
-        return
+        self.order = len(path_vertices) + len(explored_vertices)
+
+        # vertices in graph =  path_vertices + unexplored_vertices, and likewise
+        # for edges, in the interest of time complexity (at expense of space complexity)
+        self.path_vertices = path_vertices
+        self.unexplored_vertices = unexplored_vertices
+        self.path_edges = path_edges
+        self.unexplored_edges = unexplored_edges
+
+        # start/end
+        self.goal = path_vertices[0] 
     
     def successors(self):
         '''
-        Generates all the actions that can be performed from this state, and the states those actions will create.
+        Generates the list of states that can be reached from the current state.
         '''
-        successors = [] 
-        visited = Set()
-        for edges in self.path:
-            visited.add(edge[0])
+        successors = []
+        for e in self.get_edges(self, self.get_current_vertex):
+            if e[0] == self.get_current_vertex:
+                w = e[1]
+            else:
+                w = e[0]
+            self.unexplored_vertices.remove(w)
+            self.unexplored_edges.removes(w)
+            successors.append(TSPState(self.action, self.gval + e.weight, 
+                self.get_current_vertex, self.path_vertices + [w], 
+                self.unexplored_vertices, self.path_edges + [e]))
         
-        visited.add(self.path[-1][1])
-
-        unvisited = [x for x in self.vertices and x not in visited]
-
-        for vertex in visited:
-            for edge in self.get_edges(vertex):
-                if (edge[1] in unvisited):
-                    new_state = TSP(str(edge), self.gval + edge[2], self, self.vertices, self.edges, path + [edge], this.goal)
-                    successors.append(new_state)
-
         return successors 
 
     def hashable_state(self):
-        '''Return a data item that can be used as a dictionary key to UNIQUELY represent a state.'''
-        return hash((self.vertices, self.edges, self.path))
+        '''
+        Return a data item that can be used as a dictionary key to UNIQUELY represent a state.
+        '''
+        return hash(self.path_edges)
 
     def state_string(self):
-        '''Returns a string representation fo a state that can be printed to stdout.''' 
+        '''
+        Returns a string representation fo a state that can be printed to stdout.
+        ''' 
         s = "" 
-        for x in self.path:
-            s += str(x) + ", "
-        
+        for e in self.path_edges:
+            s += str(e) + "  "
         return s
  
     def print_state(self):
         '''
         Prints the string representation of the state. ASCII art FTW!
         '''    
-        print("ACTION was " + self.action)
         print(self.state_string())
 
     def get_edges(self, vertex):
-        '''Return all the outgoing edges for the given vertex in self.'''
-        result = []
-        for edge in self.edges:
-            if (edge[0] == vertex):
-                result.append(edge)
-        return result
+        '''
+        Return all the outgoing untouched edges for the given vertex in self.
+        '''
+        return [e for e in self.unexplored_edges if vertex in e[0:2]]
+
+    def get_all_edges(self, vertex):
+        '''
+        Return all the outgoing edges for the given vertex in self.
+        '''
+        return [e for e in self.unexplored_edges + self.path_edges if vertex in e[0:2]]
 
     def get_current_vertex(self):
         ''' Get the current vertex in the path'''
-        if len(path) > 0:
-            return path[-1][1]
-        else:
-            return None
+        return self.path_vertices[-1]
 
-'''
-TSP Problem Set, for testing TODO 
-'''

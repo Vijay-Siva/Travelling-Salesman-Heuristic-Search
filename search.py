@@ -236,6 +236,7 @@ class Open:
 
     def empty(self): return not self.open
 
+
     def print_open(self):
         print("{", end="")
         if len(self.open) == 1: 
@@ -244,7 +245,8 @@ class Open:
             for nd in self.open:
                 print("   <S{}:{}:{}, g={}, h={}, f=g+h={}>".format(nd.state.index, nd.state.action, nd.state.hashable_state(), nd.gval, nd.hval, nd.gval+nd.hval), end="")
         print("}")
-
+    
+    
 class SearchEngine:
     def __init__(self, strategy = 'depth_first', cc_level = 'default'):
         self.set_strategy(strategy, cc_level)
