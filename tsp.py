@@ -4,7 +4,7 @@ from search import *
     A) Class TSP
 
     A specialization of the StateSpace Class that is tailored to the travelling 
-    salesman problem
+    salesman problem.
 
 '''
 from search import * 
@@ -39,9 +39,19 @@ class TSPState(StateSpace):
         Generates the list of states that can be reached from the current state.
         '''
         successors = []
-        for edge in self.get_edges(self.get_current_vertex()):
-            state = TSPState(self.state_string() + str(edge) + " ", edge[2], self, self.path_vertices + [edge[1]], 
-                        [x for x in self.unexplored_vertices if x != edge[1]], 
+        current_vertex = self.get_current_vertex()
+
+        #loop through edges that contain the current vertex, and an untouched vertex
+        for edge in self.get_edges(current_vertex):
+
+            # get the untouched vertex
+            tail = edge[1]
+            if (edge[1] == current_vertex):
+                tail = edge[0]
+
+            #create and add the state 
+            state = TSPState(self.state_string() + str(edge) + " ", edge[2], self, self.path_vertices + [tail], 
+                        [x for x in self.unexplored_vertices if x != tail], 
                         self.path_edges + [edge], [x for x in self.unexplored_edges if x != edge], self.optimal_weight)
             successors.append(state)
 
@@ -51,7 +61,7 @@ class TSPState(StateSpace):
         '''
         Return a data item that can be used as a dictionary key to UNIQUELY represent a state.
         '''
-        return hash(sum([x[2] for x in self.path_edges]))
+        return hash(tuple(self.path_edges)); 
 
     def state_string(self):
         '''
@@ -64,19 +74,32 @@ class TSPState(StateSpace):
  
     def print_state(self):
         '''
-        Prints the string representation of the state. ASCII art FTW!
+        Prints the string representation of the state. 
         '''    
         print(self.state_string())
 
     def get_edges(self, vertex):
         '''
         Return all the outgoing untouched edges for the given vertex in self.
+        @param vertex
+        @return list of edges 
         '''
-        return [e for e in self.unexplored_edges if vertex in e[0:2] and e[1] not in self.path_vertices]
+        result = []
+        for edge in self.unexplored_edges:
+            tail = edge[1]
+            if (edge[1] == vertex):
+                tail = edge[0]
+
+            if (vertex in edge[0:2] and tail not in self.path_vertices):
+                result.append(edge)
+
+        return result
 
     def get_all_edges(self, vertex):
         '''
         Return all the outgoing edges for the given vertex in self.
+        @param vertex
+        @return list of edges 
         '''
         return [e for e in self.unexplored_edges + self.path_edges if vertex in e[0:2]]
 
@@ -88,7 +111,8 @@ class TSPState(StateSpace):
 
 def goal_state(state):
     '''
-    Returns True iff the given TSP state is a goal state. 
+    Returns True iff the path_edges in the given TSPState form a Hamiltonian cycle 
+    with minimum weight. 
     @param TSPState: The state that we want to check 
     '''
     return state.unexplored_vertices == []
