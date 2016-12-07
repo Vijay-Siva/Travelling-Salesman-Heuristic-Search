@@ -10,7 +10,9 @@ Problems = TSPState("Start", 0, None, [], [1, 2, 3, 4], [],
 
 
 if __name__ == "__main__":
-    se = SearchEngine('best_first', 'full')
-    final = se.search(initState=Problems, heur_fn=greedy, goal_fn=goal_state)
-    print(final)
+    #se = SearchEngine('best_first', 'none')
+    #final = se.search(initState=Problems, heur_fn=greedy, goal_fn=goal_state)
+    #print(final)
 
+    print(Problems)
+    print(Problems.successors())

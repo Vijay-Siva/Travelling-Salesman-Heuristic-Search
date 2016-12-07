@@ -36,18 +36,13 @@ class TSPState(StateSpace):
         Generates the list of states that can be reached from the current state.
         '''
         successors = []
-        for e in self.get_edges(self.get_current_vertex):
-            if e[0] == self.get_current_vertex:
-                w = e[1]
-            else:
-                w = e[0]
-            self.unexplored_vertices.remove(w)
-            self.unexplored_edges.removes(w)
-            successors.append(TSPState(self.action, self.gval + e.weight, 
-                self.get_current_vertex, self.path_vertices + [w], 
-                self.unexplored_vertices, self.path_edges + [e]))
-        
-        return successors 
+        for edge in self.get_edges(self.get_current_vertex()):
+            state = TSPState(self.state_string() + str(edge) + " ", edge[2], self, self.path_vertices + [edge[1]], 
+                        [x for x in self.unexplored_vertices if x != edge[1]], 
+                        self.path_edges + [edge], [x for x in self.unexplored_edges if x != edge], self.optimal_weight)
+            successors.append(state)
+
+        return successors
 
     def hashable_state(self):
         '''
@@ -74,16 +69,18 @@ class TSPState(StateSpace):
         '''
         Return all the outgoing untouched edges for the given vertex in self.
         '''
-        return [e for e in self.unexplored_edges if vertex in e[0:2]]
+        return [e for e in self.unexplored_edges if vertex == e[0]]
 
     def get_all_edges(self, vertex):
         '''
         Return all the outgoing edges for the given vertex in self.
         '''
-        return [e for e in self.unexplored_edges + self.path_edges if vertex in e[0:2]]
+        return [e for e in self.unexplored_edges + self.path_edges if vertex == e[0:2]]
 
     def get_current_vertex(self):
         ''' Get the current vertex in the path'''
+        if (self.path_vertices):
+            return path_vertices[-1]
         return 1
 
 def goal_state(state):
@@ -93,15 +90,3 @@ def goal_state(state):
     '''
     
     return sum([x[2] for x in state.path_edges]) == state.optimal_weight 
-
-#TSP test cases 
-
-Problems = TSPState("Start", 0, None, [], [1, 2, 3, 4], [], 
-            [(1, 2, 1), (2, 3, 1), (3, 2, 1), (4, 1, 1), (2, 4, 5), (1, 3, 7)], 4)
-
-
-
-if __name__ == "__main__":
-    se = SearchEngine('best_first', 'full')
-    final = se.search(initState=Problems, heur_fn=greedy, goal_fn=goal_state)
-    print(final)
