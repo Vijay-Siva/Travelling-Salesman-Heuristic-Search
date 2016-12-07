@@ -29,7 +29,8 @@ class TSP(StateSpace):
         '''
         StateSpace.__init__(self, action, gval, parent)
         self.order = len(vertices) 
-        self.vertices = vertices 
+        self.vertices = vertices
+        self.unexplored_vertices
         self.edges = edges
         self.path = path
         self.goal = goal 

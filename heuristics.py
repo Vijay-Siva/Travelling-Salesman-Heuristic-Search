@@ -1,10 +1,13 @@
+from random import random
 
 def rand(tsp, vertex):
-    pass
+    return rand(len(tsp.verticies) - len(tsp.path))
 
 def two_shortest(tsp, vertex):
-    #stortest edge connected to first, last on path
-    pass
+    '''
+    stortest edge connected to first, last on path
+    '''
+    return greedy(tsp, tsp.path[0]) + greedy(tsp, vertex)
 
 def greedy(tsp, vertex):
     '''
@@ -13,41 +16,68 @@ def greedy(tsp, vertex):
     '''
     edges = tsp.get_edges(vertex)
 
-    # dead end
+    # deal with dead end
     if edges == []:
         return sys.maxint
+
+    # get min edge weight
     min_edge = edges[0]
     for e in edges:
         if min_edge.weight > e.weight:
             min_edge = e
-    return e
+    return e.weight
 
+def mst(tsp):
+    '''
+    Size of mst of remaining vertices
+    ''' 
+    verticies = tsp.unexplored_vertices
 
-'''Associate with each vertex v of the graph a number C[v] 
-(the cheapest cost of a connection to v) and an edge E[v] 
-(the edge providing that cheapest connection). To initialize 
-these values, set all values of C[v] to +∞ (or to any number 
-larger than the maximum edge weight) and set each E[v] to a 
-special flag value indicating that there is no edge connecting 
-v to earlier vertices.
+    for v in vertices:  
+        edges = get_edges(v)
+        if edges == []:
+            # no edge connecting v to earlier vertices, -1 is flag value
+            E[v] = -1
+            C[V] = sys.maxsize
+        else:
+            # the edge providing that cheapest connection
+            E[v] = min(get_edges(v), key=lambda x: x.weight)
+            # the cheapest cost of a connection to v
+            C[V] = E[V].weight
+    
+    F = set()
+    size = 0
+    Q = set(vertices)
 
-Initialize an empty forest F and a set Q of vertices that have 
-not yet been included in F (initially, all vertices).
-Repeat the following steps until Q is empty:
-Find and remove a vertex v from Q having the minimum possible 
-value of C[v]
+    # while Q is not empty
+    while Q:
+        # Find and remove a vertex v from Q having the minimum possible 
+        # value of C[v]
+        v = min(Q, key=lambda x: C[x])
+        Q.remove(v)
 
-Add v to F and, if E[v] is not the special flag value, also add E[v] 
-to F
+        # if not dead end
+        if E[v] != -1:
+            F.add(E[v])
+            size += E[v].weight
 
-Loop over the edges vw connecting v to other vertices w. For each 
-such edge, if w still belongs to Q and vw has smaller weight than 
-C[w], perform the following steps:
+            # Loop over the edges vw connecting v to other vertices w. For each 
+            # such edge, if w still belongs to Q and vw has smaller weight than 
+            # C[w], perform the following steps: ...
 
-Set C[w] to the cost of edge vw
-Set E[w] to point to edge vw.
-Return F
-''''
-for v in tsp.vertices:
-    E[v] = min(get_edges(v), key: lambda x: x.weight)
-    C[V] = E[V].weight
+            for e in v.get_edges():
+                # get other vertex in edge
+                if e[0] == v:
+                    w = e[1]
+                else:
+                    w = e[0]
+
+                # ... set C[w] to the cost of edge vw, and
+                # set E[w] to point to edge vw.
+                if w in Q and e.weight < C[w]:
+                    C[w] = e.weight
+                    E[w] = e
+    
+    return size
+
+    
