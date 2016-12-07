@@ -25,7 +25,10 @@ class TSPState(StateSpace):
 
         # vertices in graph =  path_vertices + unexplored_vertices, and likewise
         # for edges, in the interest of time complexity (at expense of space complexity)
-        self.path_vertices = path_vertices
+        if path_vertices == []:
+            self.path_vertices = [unexplored_vertices.pop(0)]
+        else:
+            self.path_vertices = path_vertices
         self.unexplored_vertices = unexplored_vertices
         self.path_edges = path_edges
         self.unexplored_edges = unexplored_edges
@@ -88,5 +91,6 @@ def goal_state(state):
     Returns True iff the given TSP state is a goal state. 
     @param TSPState: The state that we want to check 
     '''
-    return (sum([x[2] for x in state.path_edges]) == state.optimal_weight and 
-                len(state.path_edges) == state.order)
+    return state.unexplored_vertices == []
+    #(sum([x[2] for x in state.path_edges]) == state.optimal_weight and 
+    #            len(state.path_edges) == state.order)

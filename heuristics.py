@@ -1,11 +1,12 @@
 from random import random
+from math import ceil
 import sys
 
 def rand(state):
     '''
     Note that min weight of an edge is 1
     '''
-    return random(state.unexplored_vertices)
+    return ceil(len(state.unexplored_vertices)*random())
 
 def get_min_edge_weight(edges):
     '''
@@ -26,7 +27,7 @@ def two_shortest(state):
     stortest edge connected to first, last on path
     '''
     return get_min_edge_weight(state.get_all_edges(state.path_vertices[0]))
-    + get_min_edge_weight(state.get_all_edges(state.path_vertices[1]))
+    + get_min_edge_weight(state.get_all_edges(state.path_vertices[-1]))
 
 def greedy(state):
     '''
