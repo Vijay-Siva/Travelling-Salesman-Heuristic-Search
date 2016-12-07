@@ -23,12 +23,7 @@ class TSPState(StateSpace):
         StateSpace.__init__(self, action, gval, parent)
         self.order = len(path_vertices) + len(unexplored_vertices)
 
-        # vertices in graph =  path_vertices + unexplored_vertices, and likewise
-        # for edges, in the interest of time complexity (at expense of space complexity)
-        if path_vertices == []:
-            self.path_vertices = [unexplored_vertices.pop(0)]
-        else:
-            self.path_vertices = path_vertices
+        self.path_vertices = path_vertices
         self.unexplored_vertices = unexplored_vertices
         self.path_edges = path_edges
         self.unexplored_edges = unexplored_edges
@@ -50,7 +45,7 @@ class TSPState(StateSpace):
                 tail = edge[0]
 
             #create and add the state 
-            state = TSPState(self.state_string() + str(edge) + " ", edge[2], self, self.path_vertices + [tail], 
+            state = TSPState(self.state_string() + str(edge) + " ", self.gval + edge[2], self, self.path_vertices + [tail], 
                         [x for x in self.unexplored_vertices if x != tail], 
                         self.path_edges + [edge], [x for x in self.unexplored_edges if x != edge], self.optimal_weight)
             successors.append(state)
@@ -115,6 +110,5 @@ def goal_state(state):
     with minimum weight. 
     @param TSPState: The state that we want to check 
     '''
-    return state.unexplored_vertices == []
-    #(sum([x[2] for x in state.path_edges]) == state.optimal_weight and 
-    #            len(state.path_edges) == state.order)
+    return (sum([x[2] for x in state.path_edges]) == state.optimal_weight and 
+                len(state.path_edges) == state.order)
