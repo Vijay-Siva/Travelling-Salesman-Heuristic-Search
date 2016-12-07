@@ -22,7 +22,7 @@ class TSPState(StateSpace):
         @param optimal_weight: The weight of the optimal path in the graph 
         '''
         StateSpace.__init__(self, action, gval, parent)
-        self.order = len(path_vertices) + len(explored_vertices)
+        self.order = len(path_vertices) + len(unexplored_vertices)
 
         # vertices in graph =  path_vertices + unexplored_vertices, and likewise
         # for edges, in the interest of time complexity (at expense of space complexity)
@@ -31,9 +31,6 @@ class TSPState(StateSpace):
         self.path_edges = path_edges
         self.unexplored_edges = unexplored_edges
         self.optimal_weight = optimal_weight
-
-        # start/end
-        self.goal = path_vertices[0] 
     
     def successors(self):
         '''
@@ -100,3 +97,10 @@ def goal_state(TSPState):
         sum += edge[2]
     
     return sum == self.optimal_weight 
+
+#TSP test cases 
+
+Problems = (
+    TSPState("Start", 0, None, [], [1, 2, 3, 4], [], 
+            [(1, 2, 1), (2, 3, 1), (3, 2, 1), (4, 1, 1), (2, 4, 5), (1, 3, 7)], 4)
+)
