@@ -1,4 +1,3 @@
-from search import *
 
 '''
     A) Class TSP
@@ -8,6 +7,7 @@ from search import *
 
 '''
 from search import * 
+import sys
 
 class TSPState(StateSpace):
     def __init__(self, action, gval, parent, path_vertices, unexplored_vertices,
@@ -75,7 +75,7 @@ class TSPState(StateSpace):
 
     def get_edges(self, vertex):
         '''
-        Return all the outgoing untouched edges for the given vertex in self.
+        Return all the untouched edges for the given vertex in self.
         @param vertex
         @return list of edges 
         '''
@@ -89,6 +89,23 @@ class TSPState(StateSpace):
                 result.append(edge)
 
         return result
+
+    def get_min_edge_weight(self, vertex):
+        '''
+        Return all the the minimum weight of all untouched edges for the given vertex in self.
+        @param vertex
+        @return list of edges 
+        '''
+        min_w = sys.maxsize
+        for edge in self.unexplored_edges:
+            tail = edge[1]
+            if (edge[1] == vertex):
+                tail = edge[0]
+
+            if (vertex in edge[0:2] and tail not in self.path_vertices and min_w > edge[2]):
+                min_w = edge[2]
+
+        return min_w
 
     def get_all_edges(self, vertex):
         '''

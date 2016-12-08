@@ -39,6 +39,7 @@
 import heapq
 from collections import deque
 import os
+import sys
 
 class StateSpace:
     '''Abstract class for defining State spaces for search routines'''
@@ -309,7 +310,7 @@ class SearchEngine:
 
         return rval
 
-    def search(self, initState, goal_fn, heur_fn = _zero_hfn, timebound = 100, fval_function = _fval_function, weight = 0, costbound = 10000000000):
+    def search(self, initState, goal_fn, heur_fn = _zero_hfn, timebound = 6000, fval_function = _fval_function, weight = 0, costbound = 10000000000):
         #Perform full cycle checking as follows
         #a. check state before inserting into OPEN. If we had already reached
         #   the same state via a cheaper path, don't insert into OPEN.
@@ -348,8 +349,8 @@ class SearchEngine:
 
         if goal_node:
             self.total_search_time = os.times()[0] - self.total_search_time
-            print("Solution Found with cost of {} in search time of {} sec".format(goal_node.gval, self.total_search_time))
-            print("Nodes expanded = {}, states generated = {}, states cycle check pruned = {}, states cost bound pruned = {}".format(sNode.n, StateSpace.n, self.cycle_check_pruned, self.cost_bound_pruned))
+            print("{}, {}, {}".format(goal_node.gval, self.total_search_time, sNode.n))
+            #print("Nodes expanded = {}, states generated = {}, states cycle check pruned = {}, states cost bound pruned = {}".format(sNode.n, StateSpace.n, self.cycle_check_pruned, self.cost_bound_pruned))
             return goal_node.state
         else:
             #exited the while without finding goal---search failed
