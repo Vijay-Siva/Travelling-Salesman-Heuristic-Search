@@ -1,10 +1,16 @@
 # Travelling-Salesman-Heuristics
 
-## Problem Description
-
 The Travelling salesman problem is a graph problem, where the goal is to find the shortest path that goes to each vertex exactly once and returns to the starting vertex in a weighted undirected graph. 
 
 This project approached the TSP problem as a heuristic search, exploring different heuristics using an A\* search. 
+
+## Table of Contents
+  * [Heuristics](#heuristics)
+    + [Random](#random)
+    + [Greedy](#greedy)
+    + [Two Shortest](#two-shortest)
+    + [Minimum Spanning Tree (MST)](#minimum-spanning-tree--mst-)
+    + [Mixed Two Shortest and Minimum Spanning Tree](#mixed-two-shortest-and-minimum-spanning-tree)
 
 ## Heuristics 
 
